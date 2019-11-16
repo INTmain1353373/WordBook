@@ -46,9 +46,9 @@ public class SQLitedb {
                     File f = new File(DB_PATH);
                     if (!f.exists()) {
                         f.mkdir();
-//                        f.setWritable(true,false);
-//                        f.setReadable(true, false);
-//                        f.setExecutable(true,false);
+                        f.setWritable(true,false);
+                        f.setReadable(true, false);
+                        f.setExecutable(true,false);
                         Log.e("create folder","creae");
                     }
                     try {
