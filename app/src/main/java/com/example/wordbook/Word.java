@@ -2,7 +2,9 @@ package com.example.wordbook;
 
 import androidx.annotation.NonNull;
 
-public class Word {
+import java.io.Serializable;
+
+public class Word  implements Serializable {
     String word;
     String pronunciation;
     String meaning;

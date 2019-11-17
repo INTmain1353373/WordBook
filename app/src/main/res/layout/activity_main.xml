@@ -8,9 +8,12 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Search_text"/>
+        android:id="@+id/Search_text"
+        android:hint="请输入要查询的单词"
+        />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/wordList"/>
+        android:id="@+id/wordList"
+        />
 </LinearLayout>
