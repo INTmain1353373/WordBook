@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.util.BuddhistCalendar;
@@ -93,19 +94,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               Log.e("word = ", list.get(position).getWord());
-               Intent intent = new Intent(MainActivity.this, WordInfomation.class);
-               Bundle bundle = new Bundle();
-               bundle.putSerializable("word", list.get(position));
-               //intent.putExtra("word", list.get(position));
-               intent.putExtras(bundle);
-               startActivity(intent);
-           }
-       });
+        Configuration mConfiguration = this.getResources().getConfiguration();
+        int ori = mConfiguration.orientation;
 
+        if(ori == mConfiguration.ORIENTATION_LANDSCAPE) {//横屏时，将单词的详细信息送到右侧fragment
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    RightFragment rightFragment = (RightFragment) getSupportFragmentManager().findFragmentById(R.id.right_fragment);
+                    rightFragment.refresh(list.get(position));
+                }
+            });
+        }
+        else {//坚屏时，启动另一个活动，显示单词的详细信息
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.e("word = ", list.get(position).getWord());
+                    Intent intent = new Intent(MainActivity.this, WordInfomation.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("word", list.get(position));
+                    //intent.putExtra("word", list.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
@@ -154,7 +168,9 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 add_dialog.show();
+                break;
             case R.id.help_item:
+                Toast.makeText(MainActivity.this, "this is a help", Toast.LENGTH_LONG).show();
             default:
                 break;
         }
